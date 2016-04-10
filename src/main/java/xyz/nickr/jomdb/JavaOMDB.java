@@ -2,6 +2,7 @@ package xyz.nickr.jomdb;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
@@ -10,6 +11,8 @@ import xyz.nickr.jomdb.model.SeasonResult;
 import xyz.nickr.jomdb.model.TitleResult;
 
 public class JavaOMDB {
+
+    public static final Pattern IMDB_ID_PATTERN = Pattern.compile("tt[0-9]{7}");
 
     private final JOMDBRequests requests;
 

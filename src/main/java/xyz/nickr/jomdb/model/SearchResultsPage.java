@@ -45,15 +45,19 @@ public class SearchResultsPage implements Iterable<SearchResult> {
         return json;
     }
 
-    public SearchResult[] getResults() {
-        return res;
-    }
-
     public SearchResult getResult(int x) {
         if (x < 0 || x >= res.length) {
             throw new IllegalArgumentException(String.format("(%d) is not in range [0,%d)", x, res.length));
         }
         return res[x];
+    }
+
+    public SearchResult[] getResults() {
+        return res;
+    }
+
+    public int size() {
+        return res.length;
     }
 
     @Override
