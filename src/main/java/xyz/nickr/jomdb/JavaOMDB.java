@@ -40,9 +40,23 @@ public class JavaOMDB {
         return new TitleResult(this, get(query));
     }
 
+    public TitleResult titleByName(String title, boolean fullPlot) {
+        Map<String, String> query = new HashMap<>();
+        query.put("t", title);
+        query.put("plot", Boolean.toString(fullPlot));
+        return new TitleResult(this, get(query));
+    }
+
     public TitleResult titleById(String imdbId) {
         Map<String, String> query = new HashMap<>();
         query.put("i", imdbId);
+        return new TitleResult(this, get(query));
+    }
+
+    public TitleResult titleById(String imdbId, boolean fullPlot) {
+        Map<String, String> query = new HashMap<>();
+        query.put("i", imdbId);
+        query.put("plot", Boolean.toString(fullPlot));
         return new TitleResult(this, get(query));
     }
 
