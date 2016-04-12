@@ -29,8 +29,10 @@ public class JavaOMDB {
         try {
             return requests.getJSON(params);
         } catch (JSONException ex) {
+            ex.printStackTrace();
             throw new JOMDBException("Invalid JSON", ex);
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new JOMDBException("Something went wrong", ex);
         }
     }
