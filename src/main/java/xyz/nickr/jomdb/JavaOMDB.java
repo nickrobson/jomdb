@@ -43,6 +43,7 @@ public class JavaOMDB {
             query.put("s", search);
             return new SearchResults(this, query, get(query));
         } catch (JOMDBException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -58,6 +59,7 @@ public class JavaOMDB {
             query.put("plot", fullPlot ? "full" : "short");
             return new TitleResult(this, get(query));
         } catch (JOMDBException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -73,6 +75,7 @@ public class JavaOMDB {
             query.put("plot", fullPlot ? "full" : "short");
             return new TitleResult(this, get(query));
         } catch (JOMDBException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -84,6 +87,7 @@ public class JavaOMDB {
             query.put("Season", season);
             return new SeasonResult(this, get(query));
         } catch (JOMDBException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -95,6 +99,7 @@ public class JavaOMDB {
             query.put("Season", season);
             return new SeasonResult(this, get(query));
         } catch (JOMDBException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
