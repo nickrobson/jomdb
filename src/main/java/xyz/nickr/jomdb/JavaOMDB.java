@@ -1,10 +1,10 @@
 package xyz.nickr.jomdb;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import xyz.nickr.jomdb.model.SearchResults;
@@ -26,14 +26,23 @@ public class JavaOMDB {
     }
 
     public JSONObject get(Map<String, String> params) {
-        System.out.println(new LinkedList<>(params.entrySet()));
-        return requests.getJSON(params);
+        try {
+            return requests.getJSON(params);
+        } catch (JSONException ex) {
+            throw new JOMDBException("Invalid JSON", ex);
+        } catch (Exception ex) {
+            throw new JOMDBException("Something went wrong", ex);
+        }
     }
 
     public SearchResults search(String search) {
-        Map<String, String> query = new HashMap<>();
-        query.put("s", search);
-        return new SearchResults(this, query, get(query));
+        try {
+            Map<String, String> query = new HashMap<>();
+            query.put("s", search);
+            return new SearchResults(this, query, get(query));
+        } catch (JOMDBException ex) {
+            return null;
+        }
     }
 
     public TitleResult titleByName(String title) {
@@ -41,10 +50,14 @@ public class JavaOMDB {
     }
 
     public TitleResult titleByName(String title, boolean fullPlot) {
-        Map<String, String> query = new HashMap<>();
-        query.put("t", title);
-        query.put("plot", fullPlot ? "full" : "short");
-        return new TitleResult(this, get(query));
+        try {
+            Map<String, String> query = new HashMap<>();
+            query.put("t", title);
+            query.put("plot", fullPlot ? "full" : "short");
+            return new TitleResult(this, get(query));
+        } catch (JOMDBException ex) {
+            return null;
+        }
     }
 
     public TitleResult titleById(String imdbId) {
@@ -52,24 +65,36 @@ public class JavaOMDB {
     }
 
     public TitleResult titleById(String imdbId, boolean fullPlot) {
-        Map<String, String> query = new HashMap<>();
-        query.put("i", imdbId);
-        query.put("plot", fullPlot ? "full" : "short");
-        return new TitleResult(this, get(query));
+        try {
+            Map<String, String> query = new HashMap<>();
+            query.put("i", imdbId);
+            query.put("plot", fullPlot ? "full" : "short");
+            return new TitleResult(this, get(query));
+        } catch (JOMDBException ex) {
+            return null;
+        }
     }
 
     public SeasonResult seasonByName(String title, String season) {
-        Map<String, String> query = new HashMap<>();
-        query.put("t", title);
-        query.put("Season", season);
-        return new SeasonResult(this, get(query));
+        try {
+            Map<String, String> query = new HashMap<>();
+            query.put("t", title);
+            query.put("Season", season);
+            return new SeasonResult(this, get(query));
+        } catch (JOMDBException ex) {
+            return null;
+        }
     }
 
     public SeasonResult seasonById(String imdbId, String season) {
-        Map<String, String> query = new HashMap<>();
-        query.put("i", imdbId);
-        query.put("Season", season);
-        return new SeasonResult(this, get(query));
+        try {
+            Map<String, String> query = new HashMap<>();
+            query.put("i", imdbId);
+            query.put("Season", season);
+            return new SeasonResult(this, get(query));
+        } catch (JOMDBException ex) {
+            return null;
+        }
     }
 
 }
