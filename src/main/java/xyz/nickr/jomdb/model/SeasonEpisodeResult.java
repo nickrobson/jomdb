@@ -1,10 +1,15 @@
 package xyz.nickr.jomdb.model;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+
 import org.json.JSONObject;
 
 import xyz.nickr.jomdb.JavaOMDB;
 
 public class SeasonEpisodeResult {
+
+    public static final DateTimeFormatter RELEASED_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
 
     private final JavaOMDB omdb;
     private final JSONObject json;
@@ -27,6 +32,10 @@ public class SeasonEpisodeResult {
 
     public JSONObject getJSON() {
         return json;
+    }
+
+    public Instant getReleaseDate() {
+        return Instant.from(RELEASED_FORMAT.parse(released));
     }
 
 }

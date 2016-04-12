@@ -35,9 +35,7 @@ public class JavaOMDB {
     }
 
     public TitleResult titleByName(String title) {
-        Map<String, String> query = new HashMap<>();
-        query.put("t", title);
-        return new TitleResult(this, get(query));
+        return titleByName(title, false);
     }
 
     public TitleResult titleByName(String title, boolean fullPlot) {
@@ -48,9 +46,7 @@ public class JavaOMDB {
     }
 
     public TitleResult titleById(String imdbId) {
-        Map<String, String> query = new HashMap<>();
-        query.put("i", imdbId);
-        return new TitleResult(this, get(query));
+        return titleById(imdbId, false);
     }
 
     public TitleResult titleById(String imdbId, boolean fullPlot) {
