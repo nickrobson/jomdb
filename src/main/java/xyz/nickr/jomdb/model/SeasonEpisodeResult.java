@@ -1,7 +1,9 @@
 package xyz.nickr.jomdb.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 
 import org.json.JSONObject;
 
@@ -9,7 +11,7 @@ import xyz.nickr.jomdb.JavaOMDB;
 
 public class SeasonEpisodeResult {
 
-    public static final DateTimeFormatter RELEASED_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
+    public static final DateFormat RELEASED_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private final JavaOMDB omdb;
     private final JSONObject json;
@@ -35,7 +37,11 @@ public class SeasonEpisodeResult {
     }
 
     public Instant getReleaseDate() {
-        return Instant.from(RELEASED_FORMAT.parse(released));
+        try {
+            return RELEASED_FORMAT.parse(released).toInstant();
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
 }
