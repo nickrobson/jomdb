@@ -1,6 +1,7 @@
 package xyz.nickr.jomdb;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -25,6 +26,7 @@ public class JavaOMDB {
     }
 
     public JSONObject get(Map<String, String> params) {
+        System.out.println(new LinkedList<>(params.entrySet()));
         return requests.getJSON(params);
     }
 
