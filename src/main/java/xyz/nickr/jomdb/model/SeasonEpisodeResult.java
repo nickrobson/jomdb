@@ -3,8 +3,7 @@ package xyz.nickr.jomdb.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-
+import java.util.Calendar;
 import org.json.JSONObject;
 
 import xyz.nickr.jomdb.JavaOMDB;
@@ -36,9 +35,11 @@ public class SeasonEpisodeResult {
         return json;
     }
 
-    public Instant getReleaseDate() {
+    public Calendar getReleaseDate() {
         try {
-            return RELEASED_FORMAT.parse(released).toInstant();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(RELEASED_FORMAT.parse(released));
+            return cal;
         } catch (ParseException e) {
             return null;
         }
