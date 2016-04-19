@@ -1,5 +1,8 @@
 package xyz.nickr.jomdb.model;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.json.JSONObject;
 
 import xyz.nickr.jomdb.JOMDBException;
@@ -51,6 +54,41 @@ public class TitleResult {
 
     public JSONObject getJSON() {
         return json;
+    }
+
+    public Iterable<SeasonResult> seasons() {
+        return () -> new Iterator<SeasonResult>() {
+
+            private int curr = 1;
+            private SeasonResult res;
+
+            private void preload() {
+                if (res != null)
+                    return;
+                try {
+                    res = omdb.seasonById(imdbID, String.valueOf(curr));
+                } catch (Exception ex) {
+                    res = null;
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                preload();
+                return res != null;
+            }
+
+            @Override
+            public SeasonResult next() {
+                if (!hasNext())
+                    throw new NoSuchElementException("no more seasons");
+                SeasonResult next = res;
+                res = null;
+                curr++;
+                return next;
+            }
+
+        };
     }
 
 }
