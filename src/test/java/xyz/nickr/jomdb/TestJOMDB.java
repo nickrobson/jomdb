@@ -16,11 +16,11 @@ public class TestJOMDB {
         SearchResults res = omdb.search("Ant-Man");
         for (SearchResultsPage page : res) {
             for (SearchResult sr : page) {
-                System.out.println("ID: " + sr.imdbId);
-                System.out.println("   Title: " + sr.title);
-                System.out.println("   Year: " + sr.year);
-                System.out.println("   Type: " + sr.type);
-                System.out.println("   Poster: " + sr.poster);
+                System.out.println("ID: " + sr.getImdbId());
+                System.out.println("   Title: " + sr.getTitle());
+                System.out.println("   Year: " + sr.getYear());
+                System.out.println("   Type: " + sr.getType());
+                System.out.println("   Poster: " + sr.getPoster());
             }
         }
     }
@@ -29,14 +29,14 @@ public class TestJOMDB {
     public void findStargateS1() {
         JavaOMDB omdb = new JavaOMDB();
         SeasonResult season = omdb.seasonByName("Stargate Universe", "1");
-        System.out.println("Title: " + season.title);
-        System.out.println("Season: " + season.season);
+        System.out.println("Title: " + season.getTitle());
+        System.out.println("Season: " + season.getSeason());
         for (SeasonEpisodeResult episode : season) {
-            System.out.println("Episode: " + episode.episode);
-            System.out.println("   Title: " + episode.title);
-            System.out.println("   Released: " + episode.released);
-            System.out.println("   IMDB ID: " + episode.imdbId);
-            System.out.println("   IMDB Rating: " + episode.imdbRating);
+            System.out.println("Episode: " + episode.getEpisode());
+            System.out.println("   Title: " + episode.getTitle());
+            System.out.println("   Released: " + episode.getReleased());
+            System.out.println("   IMDB ID: " + episode.getImdbId());
+            System.out.println("   IMDB Rating: " + episode.getImdbRating());
         }
     }
 
