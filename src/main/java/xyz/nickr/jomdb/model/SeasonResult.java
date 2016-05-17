@@ -10,16 +10,23 @@ import java.util.stream.StreamSupport;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
 
 public class SeasonResult implements Iterable<SeasonEpisodeResult> {
 
+    @Getter
     private final JavaOMDB omdb;
+
+    @Getter
     private final JSONObject json;
 
-    public final String title, season;
-    public final SeasonEpisodeResult[] episodes;
+    @Getter
+    private final String title, season;
+
+    @Getter
+    private final SeasonEpisodeResult[] episodes;
 
     public SeasonResult(JavaOMDB omdb, JSONObject json) {
         this.omdb = omdb;
@@ -29,7 +36,7 @@ public class SeasonResult implements Iterable<SeasonEpisodeResult> {
             this.season = json.getString("Season");
             JSONArray array = json.getJSONArray("Episodes");
             this.episodes = new SeasonEpisodeResult[array.length()];
-            for (int i = 0, j = episodes.length; i < j; i++) {
+            for (int i = 0, j = this.episodes.length; i < j; i++) {
                 this.episodes[i] = new SeasonEpisodeResult(omdb, array.getJSONObject(i));
             }
         } else {
@@ -37,26 +44,18 @@ public class SeasonResult implements Iterable<SeasonEpisodeResult> {
         }
     }
 
-    public JavaOMDB getOMDB() {
-        return omdb;
-    }
-
-    public JSONObject getJSON() {
-        return json;
-    }
-
     @Override
     public Iterator<SeasonEpisodeResult> iterator() {
-        return Arrays.asList(episodes).iterator();
+        return Arrays.asList(this.episodes).iterator();
     }
 
     @Override
     public Spliterator<SeasonEpisodeResult> spliterator() {
-        return Spliterators.spliterator(iterator(), episodes.length, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.SIZED);
+        return Spliterators.spliterator(this.iterator(), this.episodes.length, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.SIZED);
     }
 
     public Stream<SeasonEpisodeResult> stream() {
-        return StreamSupport.stream(spliterator(), false);
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
 }

@@ -5,20 +5,26 @@ import java.util.NoSuchElementException;
 
 import org.json.JSONObject;
 
+import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
 
 public class TitleResult {
 
+    @Getter
     private final JavaOMDB omdb;
+
+    @Getter
     private final JSONObject json;
 
-    public final String title, type, year, rated;
-    public final String released, runtime, genre;
-    public final String director, writer, actors;
-    public final String plot, language, country;
-    public final String awards, poster, metascore;
-    public final String imdbRating, imdbVotes, imdbID;
+    @Getter
+    private final String title, type, year, rated, released, runtime, genre;
+
+    @Getter
+    private final String director, writer, actors, plot, language, country;
+
+    @Getter
+    private final String awards, poster, metascore, imdbRating, imdbVotes, imdbID;
 
     public TitleResult(JavaOMDB omdb, JSONObject json) {
         this.omdb = omdb;
@@ -48,14 +54,6 @@ public class TitleResult {
         }
     }
 
-    public JavaOMDB getOMDB() {
-        return omdb;
-    }
-
-    public JSONObject getJSON() {
-        return json;
-    }
-
     public Iterable<SeasonResult> seasons() {
         return () -> new Iterator<SeasonResult>() {
 
@@ -63,28 +61,30 @@ public class TitleResult {
             private SeasonResult res;
 
             private void preload() {
-                if (res != null)
+                if (this.res != null) {
                     return;
+                }
                 try {
-                    res = omdb.seasonById(imdbID, String.valueOf(curr));
+                    this.res = TitleResult.this.omdb.seasonById(TitleResult.this.imdbID, String.valueOf(this.curr));
                 } catch (Exception ex) {
-                    res = null;
+                    this.res = null;
                 }
             }
 
             @Override
             public boolean hasNext() {
-                preload();
-                return res != null;
+                this.preload();
+                return this.res != null;
             }
 
             @Override
             public SeasonResult next() {
-                if (!hasNext())
+                if (!this.hasNext()) {
                     throw new NoSuchElementException("no more seasons");
-                SeasonResult next = res;
-                res = null;
-                curr++;
+                }
+                SeasonResult next = this.res;
+                this.res = null;
+                this.curr++;
                 return next;
             }
 

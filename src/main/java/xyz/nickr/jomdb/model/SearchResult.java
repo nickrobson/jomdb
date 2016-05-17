@@ -2,11 +2,15 @@ package xyz.nickr.jomdb.model;
 
 import org.json.JSONObject;
 
+import lombok.Getter;
+
 public class SearchResult {
 
+    @Getter
     private final JSONObject json;
 
-    public final String title, year, imdbId, type, poster;
+    @Getter
+    private final String title, year, imdbId, type, poster;
 
     public SearchResult(JSONObject json) {
         this.json = json;
@@ -15,10 +19,6 @@ public class SearchResult {
         this.imdbId = json.getString("imdbID");
         this.type = json.getString("Type");
         this.poster = json.optString("Poster");
-    }
-
-    public JSONObject getJSON() {
-        return json;
     }
 
 }
