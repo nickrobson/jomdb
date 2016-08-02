@@ -2,6 +2,8 @@ package xyz.nickr.jomdb.model;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.Spliterators;
 
 import org.json.JSONObject;
 
@@ -9,7 +11,7 @@ import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
 
-public class TitleResult {
+public class TitleResult implements Iterable<SeasonResult> {
 
     @Getter
     private final JavaOMDB omdb;
@@ -63,7 +65,12 @@ public class TitleResult {
     }
 
     public Iterable<SeasonResult> seasons() {
-        return () -> new Iterator<SeasonResult>() {
+        return this;
+    }
+
+    @Override
+    public Iterator<SeasonResult> iterator() {
+        return new Iterator<SeasonResult>() {
 
             private int curr = 1;
             private SeasonResult res;
@@ -97,6 +104,11 @@ public class TitleResult {
             }
 
         };
+    }
+
+    @Override
+    public Spliterator<SeasonResult> spliterator() {
+        return Spliterators.spliterator(this.iterator(), this.totalSeasons, Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE | Spliterator.ORDERED | Spliterator.SIZED);
     }
 
 }
