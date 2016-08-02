@@ -26,6 +26,9 @@ public class TitleResult {
     @Getter
     private final String awards, poster, metascore, imdbRating, imdbVotes, imdbID;
 
+    @Getter
+    private final int totalSeasons;
+
     public TitleResult(JavaOMDB omdb, JSONObject json) {
         this.omdb = omdb;
         this.json = json;
@@ -49,6 +52,11 @@ public class TitleResult {
             this.imdbRating = json.getString("imdbRating");
             this.imdbVotes = json.getString("imdbVotes");
             this.imdbID = json.getString("imdbID");
+            int totalSeasons = -1;
+            try {
+                totalSeasons = Integer.parseInt(json.getString("totalSeasons"));
+            } catch (Exception ex) {}
+            this.totalSeasons = totalSeasons;
         } else {
             throw new JOMDBException(json.getString("Error"));
         }

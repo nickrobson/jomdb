@@ -18,8 +18,9 @@ public class JOMDBRequests {
         String query = "";
         try {
             for (Entry<String, String> entry : params.entrySet()) {
-                if (query.length() > 0)
+                if (query.length() > 0) {
                     query += "&";
+                }
                 query += URLEncoder.encode(entry.getKey(), "UTF-8");
                 query += "=";
                 query += URLEncoder.encode(entry.getValue(), "UTF-8");
@@ -32,8 +33,9 @@ public class JOMDBRequests {
 
     public JSONObject getJSON(String url) {
         try {
-            if (url.startsWith("/"))
+            if (url.startsWith("/")) {
                 url = API_URL + url;
+            }
             return Unirest.get(url).asJson().getBody().getObject();
         } catch (UnirestException e) {
             e.printStackTrace();
@@ -42,7 +44,7 @@ public class JOMDBRequests {
     }
 
     public JSONObject getJSON(Map<String, String> params) {
-        return getJSON(getURL(params));
+        return this.getJSON(this.getURL(params));
     }
 
 }
