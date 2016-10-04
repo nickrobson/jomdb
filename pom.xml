@@ -2,11 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>xyz.nickr</groupId>
     <artifactId>jomdb</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
 
-	<build>
-       	<sourceDirectory>src/main/java</sourceDirectory>
-		<plugins>
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
               <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
@@ -16,15 +16,9 @@
                 </configuration>
               </plugin>
         </plugins>
-	</build>
+    </build>
 
-	<dependencies>
-        <dependency>
-            <groupId>xyz.nickr</groupId>
-            <artifactId>javaworks</artifactId>
-            <version>1.1.0</version>
-              <scope>compile</scope>
-        </dependency>
+    <dependencies>
           <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>

@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
-import xyz.nickr.utils.Cache;
 
 public class SearchResults implements Iterable<SearchResultsPage> {
 
@@ -28,7 +27,7 @@ public class SearchResults implements Iterable<SearchResultsPage> {
     private final JSONObject json;
 
     @Getter
-    private final Cache<SearchResultsPage> pages = new Cache<>();
+    private final Map<Integer, SearchResultsPage> pages = new HashMap<>();
 
     @Getter
     private final int pageCount, totalResults;
@@ -41,7 +40,7 @@ public class SearchResults implements Iterable<SearchResultsPage> {
             this.totalResults = json.getInt("totalResults");
             this.pageCount = this.totalResults > 0 ? 1 + this.totalResults / 10 : 0;
             int page = Integer.parseInt(query.getOrDefault("page", "1"));
-            this.pages.put(new Object[] {"getPage", page}, new SearchResultsPage(this, page, json));
+            this.pages.put(page, new SearchResultsPage(this, page, json));
         } else {
             throw new JOMDBException(json.getString("Error"));
         }
@@ -51,13 +50,14 @@ public class SearchResults implements Iterable<SearchResultsPage> {
         if (page < 1 || page > this.pageCount) {
             throw new IllegalArgumentException(String.format("(%d) is not in range [1,%d]", page, this.pageCount));
         }
-        Object[] key = {"getPage", page};
-        if (this.pages.has(key)) {
-            return this.pages.get(key);
+        if (this.pages.containsKey(page)) {
+            return this.pages.get(page);
         }
         Map<String, String> q = new HashMap<>(this.query);
         q.put("page", Integer.toString(page));
-        return new SearchResultsPage(this, page, this.omdb.get(q));
+        SearchResultsPage searchResults = new SearchResultsPage(this, page, this.omdb.get(q));
+        this.pages.put(page, searchResults);
+        return searchResults;
     }
 
     @Override
