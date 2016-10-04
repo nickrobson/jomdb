@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.json.JSONObject;
 
@@ -11,6 +13,9 @@ import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
 
+/**
+ * Represents a title.
+ */
 public class TitleResult implements Iterable<SeasonResult> {
 
     @Getter
@@ -64,10 +69,6 @@ public class TitleResult implements Iterable<SeasonResult> {
         }
     }
 
-    public Iterable<SeasonResult> seasons() {
-        return this;
-    }
-
     @Override
     public Iterator<SeasonResult> iterator() {
         return new Iterator<SeasonResult>() {
@@ -109,6 +110,15 @@ public class TitleResult implements Iterable<SeasonResult> {
     @Override
     public Spliterator<SeasonResult> spliterator() {
         return Spliterators.spliterator(this.iterator(), this.totalSeasons, Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE | Spliterator.ORDERED | Spliterator.SIZED);
+    }
+
+    /**
+     * Gets the seasons of this title as a stream.
+     *
+     * @return The stream.
+     */
+    public Stream<SeasonResult> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
 }

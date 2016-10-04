@@ -14,6 +14,9 @@ import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
 
+/**
+ * Represents a season of a title.
+ */
 public class SeasonResult implements Iterable<SeasonEpisodeResult> {
 
     @Getter
@@ -54,6 +57,11 @@ public class SeasonResult implements Iterable<SeasonEpisodeResult> {
         return Spliterators.spliterator(this.iterator(), this.episodes.length, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.SIZED);
     }
 
+    /**
+     * Gets the episodes of this season as a stream.
+     *
+     * @return The stream.
+     */
     public Stream<SeasonEpisodeResult> stream() {
         return StreamSupport.stream(this.spliterator(), false);
     }

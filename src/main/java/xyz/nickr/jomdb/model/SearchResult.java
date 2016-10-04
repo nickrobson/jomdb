@@ -4,6 +4,9 @@ import org.json.JSONObject;
 
 import lombok.Getter;
 
+/**
+ * Represents a single result of a {@link SearchResults set of search results}.
+ */
 public class SearchResult {
 
     @Getter

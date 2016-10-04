@@ -10,6 +10,9 @@ import org.json.JSONObject;
 import lombok.Getter;
 import xyz.nickr.jomdb.JavaOMDB;
 
+/**
+ * Represents an episode of a season.
+ */
 public class SeasonEpisodeResult {
 
     public static final DateFormat RELEASED_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -33,6 +36,11 @@ public class SeasonEpisodeResult {
         this.imdbId = json.getString("imdbID");
     }
 
+    /**
+     * Gets the date this episode came out, as a calendar object.
+     *
+     * @return The calendar object (or null if unable to parse the {@code released} field).
+     */
     public Calendar getReleaseDate() {
         try {
             Calendar cal = Calendar.getInstance();

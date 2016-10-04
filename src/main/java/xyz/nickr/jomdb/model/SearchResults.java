@@ -15,6 +15,9 @@ import lombok.Getter;
 import xyz.nickr.jomdb.JOMDBException;
 import xyz.nickr.jomdb.JavaOMDB;
 
+/**
+ * Represents the results of a search.
+ */
 public class SearchResults implements Iterable<SearchResultsPage> {
 
     @Getter
@@ -46,6 +49,13 @@ public class SearchResults implements Iterable<SearchResultsPage> {
         }
     }
 
+    /**
+     * Gets a page of search results (the OMDB API is paginated).
+     *
+     * @param page The page number, must be in {@code [1, getPageCount()]}.
+     *
+     * @return The page.
+     */
     public SearchResultsPage getPage(int page) {
         if (page < 1 || page > this.pageCount) {
             throw new IllegalArgumentException(String.format("(%d) is not in range [1,%d]", page, this.pageCount));
@@ -87,6 +97,11 @@ public class SearchResults implements Iterable<SearchResultsPage> {
         return Spliterators.spliterator(this.iterator(), this.pageCount, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.SIZED);
     }
 
+    /**
+     * Gets the pages as a stream.
+     *
+     * @return The pages stream.
+     */
     public Stream<SearchResultsPage> stream() {
         return StreamSupport.stream(this.spliterator(), false);
     }
