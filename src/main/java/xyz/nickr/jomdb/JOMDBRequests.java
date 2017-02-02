@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mashape.unirest.http.Unirest;
@@ -53,7 +54,12 @@ public class JOMDBRequests {
             if (url.startsWith("/")) {
                 url = API_URL + url;
             }
-            return Unirest.get(url).asJson().getBody().getObject();
+            String body = Unirest.get(url).asString().getBody();
+            try {
+                return new JSONObject(body);
+            } catch (JSONException ex) {
+                return new JSONObject(body.replace("\\", "\\\\"));
+            }
         } catch (UnirestException e) {
             e.printStackTrace();
             return null;

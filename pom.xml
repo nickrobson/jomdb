@@ -8,7 +8,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>Java OMDB API</name>
     <description>A Java library wrapping the OMDB API (http://omdbapi.com).</description>
     <url>http://github.com/nickrobson/jomdb/</url>
 
