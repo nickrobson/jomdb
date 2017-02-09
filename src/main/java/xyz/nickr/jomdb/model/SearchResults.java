@@ -41,7 +41,7 @@ public class SearchResults implements Iterable<SearchResultsPage> {
         this.json = json;
         if (json.getBoolean("Response")) {
             this.totalResults = json.getInt("totalResults");
-            this.pageCount = this.totalResults > 0 ? 1 + this.totalResults / 10 : 0;
+            this.pageCount = this.totalResults > 0 ? (this.totalResults + this.totalResults % 10) / 10 : 0;
             int page = Integer.parseInt(query.getOrDefault("page", "1"));
             this.pages.put(page, new SearchResultsPage(this, page, json));
         } else {

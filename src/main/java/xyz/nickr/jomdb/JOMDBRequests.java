@@ -50,19 +50,24 @@ public class JOMDBRequests {
      * @return The JSON.
      */
     public JSONObject getJSON(String url) {
+        String body = null;
         try {
             if (url.startsWith("/")) {
                 url = API_URL + url;
             }
-            String body = Unirest.get(url).asString().getBody();
+            body = Unirest.get(url).asString().getBody();
+            if (body.equals("The service is unavailable.")) {
+                throw new JOMDBUnavailableException();
+            }
             try {
                 return new JSONObject(body);
             } catch (JSONException ex) {
                 return new JSONObject(body.replace("\\", "\\\\"));
             }
-        } catch (UnirestException e) {
-            e.printStackTrace();
-            return null;
+        } catch (Exception e) {
+            if (e instanceof JOMDBUnavailableException)
+                throw (JOMDBUnavailableException) e;
+            throw new JOMDBException(body != null ? "Failed to parse: " + body : "Could not retrieve JSON data", e);
         }
     }
 
