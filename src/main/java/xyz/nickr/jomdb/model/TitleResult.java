@@ -81,11 +81,8 @@ public class TitleResult implements Iterable<SeasonResult> {
                     return;
                 }
                 this.res = null;
-                if (this.curr > totalSeasons)
-                    return;
-                try {
-                    this.res = TitleResult.this.omdb.seasonById(TitleResult.this.imdbID, String.valueOf(this.curr));
-                } catch (Exception ignored) {}
+                if (this.curr <= totalSeasons)
+                    this.res = omdb.seasonById(imdbID, String.valueOf(this.curr));
             }
 
             @Override
