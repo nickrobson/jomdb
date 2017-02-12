@@ -1,5 +1,6 @@
 package xyz.nickr.jomdb;
 
+import com.mashape.unirest.http.HttpResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -55,7 +56,11 @@ public class JOMDBRequests {
             if (url.startsWith("/")) {
                 url = API_URL + url;
             }
-            body = Unirest.get(url).asString().getBody();
+            HttpResponse<String> res = Unirest.get(url).asString();
+            if (res.getStatus() / 100 == 5) { // 500 codes
+                throw new JOMDBUnavailableException();
+            }
+            body = res.getBody();
             if (body.equals("The service is unavailable.")) {
                 throw new JOMDBUnavailableException();
             }
